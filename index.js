@@ -1,22 +1,24 @@
 const express = require('express');
+// CORS middleware to enable cross-origin requests
+
 const cors = require('cors');
+
+// Initialize the Express application
 const app = express();
 const port = 3000;
 
-// Enable CORS for all routes
+// Enable CORS for all routes to allow cross-origin requests
 app.use(cors());
 
+// Serve static files from the 'public' directory, which includes index.html
 app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the Calculator Service!');
-});
 
 // Addition endpoint
 app.get('/add', (req, res) => {
   const num1 = parseFloat(req.query.num1);
   const num2 = parseFloat(req.query.num2);
 
+    // Validate the parsed numbers; if either is NaN, return an error message
   if (isNaN(num1) || isNaN(num2)) {
     return res.status(400).json({error: 'Please provide two valid numbers for addition.'});
   }
@@ -55,7 +57,8 @@ app.get('/multiply', (req, res) => {
 app.get('/divide', (req, res) => {
   const num1 = parseFloat(req.query.num1);
   const num2 = parseFloat(req.query.num2);
-
+  
+  // Validate the parsed numbers. Also, ensure the denominator (num2) is not zero
   if (isNaN(num1) || isNaN(num2)) {
     return res.status(400).json({error: 'Please provide two valid numbers for division.'});
   }
